@@ -27,9 +27,10 @@ public class  AutonomousCommand extends CommandGroup {
     		addSequential(new openBottomGripper());
     		addSequential(new timerDelay(400));
     		addSequential(new elevatorPoint4());
-    		addSequential(new timerDelay(1000));
-    		addSequential(new elevatorPoint3());
+    		addSequential(new timerDelay(500));
     		addSequential(new closeBottomGripper());
+    		addSequential(new timerDelay(750));
+    		addSequential(new elevatorPoint3());
     		addSequential(new timerDelay(750));
     		i++;
     	}
