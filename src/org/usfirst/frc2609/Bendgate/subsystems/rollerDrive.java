@@ -19,7 +19,14 @@ public class rollerDrive extends Subsystem {
     SpeedController rollerLeft = RobotMap.rollerLeft;
     SpeedController rollerRight = RobotMap.rollerRight;
 
-    
+    public void rollRight(){
+    	rollerLeft.set(.5);
+    	rollerRight.set(.5);
+    }
+    public void rollLeft(){
+    	rollerLeft.set(-.5);
+    	rollerRight.set(-.5);
+    }
 	public void rollIn(){
 		rollerLeft.set(.5);
 		rollerRight.set(-.5);

@@ -4,70 +4,76 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2609.Bendgate.Robot;
 import org.usfirst.frc2609.Bendgate.commands.*;
 
-/**
- *
- */
 public class  AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	//addSequential(new driveDistanceEncoder());
-    	int i = 1;
-    	while(i <= 2)
-    	{
-    		addSequential(new rollerIn());
-    		addSequential(new openTopGripper());
-    		addSequential(new timerDelay(500));
-    		addSequential(new elevatorPoint1());
-    		addSequential(new timerDelay(500));
-    		addSequential(new closeBottomGripper());
-    		addSequential(new timerDelay(500));
-    		addSequential(new closeTopGripper());
-    		addSequential(new openBottomGripper());
-    		addSequential(new timerDelay(400));
-    		addSequential(new elevatorPoint4());
-    		addSequential(new timerDelay(500));
-    		addSequential(new closeBottomGripper());
-    		addSequential(new timerDelay(750));
-    		addSequential(new elevatorPoint3());
-    		addSequential(new timerDelay(750));
-    		i++;
-    	}
-    	addSequential(new rollerStop());
-    	//Tote 2 beings
-    	/*
+    	requires(Robot.bottomGripper);		// subsystem dependencies
+    	requires(Robot.elevatorDrive);		// subsystem dependencies
+    	requires(Robot.robotDrive);			// subsystem dependencies
+    	requires(Robot.rollerDrive);		// subsystem dependencies
+    	requires(Robot.topGripper);			// subsystem dependencies
+    	
+    	int distanceVar = 1550;
+    	double speed = .5;
+    	addSequential(new rollerIn());
+		addSequential(new closeBottomGripper()); 
+    	addSequential(new timerDelay(250));
     	addSequential(new closeTopGripper());
-    	addSequential(new timerDelay(500));
     	addSequential(new openBottomGripper());
+    	addSequential(new timerDelay(250));
     	addSequential(new elevatorPoint4());
-    	addSequential(new timerDelay(1000));
-    	addSequential(new elevatorPoint3());
-    	addSequential(new closeBottomGripper());
-    	addSequential(new timerDelay(500));
-    	addSequential(new rollerStop());*/
+		addSequential(new driveDistanceEncoder(distanceVar,speed));
+		distanceVar = distanceVar + distanceVar + 200;
+		addSequential(new closeBottomGripper());
+		addSequential(new timerDelay(500));
+		addSequential(new elevatorPoint3());
+		addSequential(new openTopGripper());
+		addSequential(new timerDelay(250));
+		addSequential(new elevatorPoint1());
+		addSequential(new closeTopGripper());
+		addSequential(new timerDelay(250));
+		addSequential(new openBottomGripper());
+		addSequential(new timerDelay(250));
+		addSequential(new elevatorPoint4());
+		addSequential(new driveDistanceEncoder(distanceVar,speed));
+		addSequential(new closeBottomGripper());
+		addSequential(new timerDelay(500));
+		addSequential(new elevatorPoint3());
+		addSequential(new rollerStop());
+		
+		addSequential(new driveAngleTurn(90));
+		addSequential(new driveDistanceEncoder(2088,speed)); //164.4 inches*12.7 counts per inch = 12.94 
+		addSequential(new openBottomGripper());
+		addSequential(new openTopGripper());
+		
+		addSequential(new stopDrive());
+		
+    	//Finish
+    	//Turn
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     }
 }
