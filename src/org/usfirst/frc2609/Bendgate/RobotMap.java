@@ -1,11 +1,8 @@
 package org.usfirst.frc2609.Bendgate;   
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType; import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
-import edu.wpi.first.wpilibj.can.*;
+import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.Vector;
 
 public class RobotMap {
     public static CANTalon canTalonLF;
@@ -23,8 +20,11 @@ public class RobotMap {
     public static DoubleSolenoid topGripperSolenoid;
     public static SpeedController rollerLeft;
     public static SpeedController rollerRight;
-
-    
+    public static DigitalInput toteSenseR;
+    public static DigitalInput toteSenseL;
+    public static boolean latch = false;
+    public static boolean run2once = true;
+        
     public static void init() {
 
         canTalonLF = new CANTalon(3);
@@ -71,6 +71,8 @@ public class RobotMap {
         LiveWindow.addActuator("rollerDrive", "rollerLeft", (Talon) rollerLeft);
         rollerRight = new Talon(1);
         LiveWindow.addActuator("rollerDrive", "rollerRight", (Talon) rollerRight);
+        toteSenseR = new DigitalInput(7);
+        toteSenseL = new DigitalInput(8);
         
         
     /*  SmartDashboard.putBoolean("RightisFwdLimitSwitchClosed", cANTalonRight.isFwdLimitSwitchClosed());	//Top Right

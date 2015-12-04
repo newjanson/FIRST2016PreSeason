@@ -37,7 +37,8 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-
+	DigitalInput toteSenseR = RobotMap.toteSenseR;
+    DigitalInput toteSenseL = RobotMap.toteSenseL;
     public static Joystick driverPad;
     public static Joystick operatorPad;
 	Encoder quadratureEncoder1 = RobotMap.encoderElevator;
@@ -47,15 +48,19 @@ public class OI {
     public JoystickButton doRollersOut;
     public JoystickButton doRollersLeft;
     public JoystickButton doRollersRight;
+    public JoystickButton doloadStackTote;
 
     public OI() {
         operatorPad = new Joystick(1);
         driverPad = new Joystick(0);
+        //toteSenseR.get() 
         
         doRollersOut = new JoystickButton(driverPad, 5);
         doRollersOut.whileHeld(new rollerOut());
         doRollersIn = new JoystickButton(driverPad, 6);
-        doRollersIn.whileHeld(new rollerIn());
+        doloadStackTote = new JoystickButton(driverPad, 4);
+        doRollersIn.whenPressed(new rollerIn());
+        doloadStackTote.whenPressed(new loadStackTote(toteSenseR.get(),toteSenseL.get()));
         doRollersIn.whenReleased(new rollerStop());
         doRollersOut.whenReleased(new rollerStop());
         doRollersRight = new JoystickButton(driverPad, 1);
@@ -64,7 +69,7 @@ public class OI {
         doRollersLeft = new JoystickButton(driverPad, 3);
         doRollersLeft.whileHeld(new rollerLeft());
         doRollersLeft.whenReleased(new rollerStop());
-        
+
         openBottomGripper = new JoystickButton(driverPad, 7);        
         closeBottomGripper = new JoystickButton(driverPad, 8);
         closeBottomGripper.whileHeld(new closeBottomGripper());
@@ -80,16 +85,15 @@ public class OI {
         openTopGripper.whileHeld(new openTopGripper());
         closeTopGripper.whileHeld(new closeTopGripper());
         elevatorReset.whileHeld(new elevatorReset());
-        elevatorPoint1.whileHeld(new elevatorPoint1());
-    	elevatorPoint2.whileHeld(new elevatorPoint2());
-		elevatorPoint3.whileHeld(new elevatorPoint3());
-		elevatorPoint4.whileHeld(new elevatorPoint4());
-		if ((Math.abs(OI.operatorPad.getRawAxis(5))>.15)){
-			new closeTopGripper();
-		}
-		SmartDashboard.putNumber("getRawAxis(5)", Math.abs(OI.operatorPad.getRawAxis(5)));
+        elevatorPoint1.whileHeld(new elevatorPoint1("position1"));
+    	elevatorPoint2.whileHeld(new elevatorPoint1("position2"));
+		elevatorPoint3.whileHeld(new elevatorPoint1("position3"));
+		elevatorPoint4.whileHeld(new elevatorPoint1("position4"));
+		
+		//SmartDashboard.putNumber("getRawAxis(5)", Math.abs(OI.operatorPad.getRawAxis(5)));
 		// SmartDashboard Buttons
-        SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
+		/*
+        SmartDashboard.putData("Autonomous Command", new autonomousCommand());
         SmartDashboard.putData("openTopGripper", new openTopGripper());
         SmartDashboard.putData("releaseTopGripper", new releaseTopGripper());
         SmartDashboard.putData("closeTopGripper", new closeTopGripper());
@@ -99,12 +103,9 @@ public class OI {
         SmartDashboard.putData("rollerIn", new rollerIn());
         SmartDashboard.putData("rollerStop", new rollerStop());
         SmartDashboard.putData("rollerOut", new rollerOut());
-        SmartDashboard.putData("elevatorPoint1", new elevatorPoint1());
-        SmartDashboard.putData("elevatorPoint2", new elevatorPoint2());
-        SmartDashboard.putData("elevatorPoint3", new elevatorPoint3());
-        SmartDashboard.putData("elevatorPoint4", new elevatorPoint4());
         SmartDashboard.putData("driveAngleTurn", new driveAngleTurn(0));
         //SmartDashboard.putData("driveDistanceEncoder", new driveDistanceEncoder());
+    */
     }
     public Command GetCommands(){
 		return null;

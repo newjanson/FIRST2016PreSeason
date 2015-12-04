@@ -7,12 +7,10 @@ public class  driveDistanceEncoder extends Command {
 	private double driveDistanceSetpoint;
 	private double drivePower;
 	
-	private boolean enablePID;
     public driveDistanceEncoder(double driveDistanceSetpoint,double drivePower) {
         requires(Robot.robotDrive);
         this.driveDistanceSetpoint = driveDistanceSetpoint;
         this.drivePower = drivePower;
-        this.enablePID = enablePID;
     }
 
     protected void initialize() {

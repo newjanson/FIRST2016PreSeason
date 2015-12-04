@@ -1,6 +1,5 @@
 package org.usfirst.frc2609.Bendgate.subsystems;
 import org.usfirst.frc2609.Bendgate.RobotMap;
-import org.usfirst.frc2609.Bendgate.commands.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
