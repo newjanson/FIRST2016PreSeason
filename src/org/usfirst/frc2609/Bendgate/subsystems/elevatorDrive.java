@@ -1,5 +1,4 @@
 package org.usfirst.frc2609.Bendgate.subsystems;
-import org.usfirst.frc2609.Bendgate.OI;
 import org.usfirst.frc2609.Bendgate.Robot;
 import org.usfirst.frc2609.Bendgate.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -12,9 +11,6 @@ public class elevatorDrive extends PIDSubsystem {
     Encoder encoderElevator = RobotMap.encoderElevator;
     CANTalon cANTalonLeft = RobotMap.canTalonEL;
     CANTalon cANTalonRight = RobotMap.canTalonER;
-    Boolean toggle = true;
-    Boolean oldButton = false;
-    Boolean switch1 = true;
     public elevatorDrive() {
         super("elevatorDrive", .003, 0.0, 0.0);
         setAbsoluteTolerance(20);
@@ -29,30 +25,13 @@ public class elevatorDrive extends PIDSubsystem {
     public void elevatorReset(){
     	encoderElevator.reset();
     }
-    
+    public void talonDrive(int setElevator){
+    	Robot.elevatorDrive.disable();
+    	cANTalonLeft.set(setElevator);
+    	SmartDashboard.putNumber("encoderElevator", cANTalonLeft.getPosition());
+    	SmartDashboard.putNumber("encoderSetpoint", cANTalonLeft.getSetpoint());
+    }
     public void elevatorStick(){
-    	if (OI.operatorPad.getRawButton(9) == true){
-	    	if (Math.abs(OI.operatorPad.getRawAxis(5))>.2){  
-	    		if(encoderElevator.get() < 6366 || encoderElevator.get() > 300){
-	    			Robot.elevatorDrive.enable();
-	    	    	Robot.elevatorDrive.setSetpoint(encoderElevator.get()+(300*-OI.operatorPad.getRawAxis(5)));
-	    		}
-	    		else{
-	    			Robot.elevatorDrive.enable();
-	    	    	Robot.elevatorDrive.setSetpoint(encoderElevator.get()+(50*-OI.operatorPad.getRawAxis(5)));
-	    		}
-	    	}
-	    	else{
-	    		if (OI.operatorPad.getRawButton(1)==true || OI.operatorPad.getRawButton(2)==true || OI.operatorPad.getRawButton(3)==true || OI.operatorPad.getRawButton(4)==true){
-	    			Robot.elevatorDrive.enable();
-	    		}
-	    		else{
-	    			Robot.elevatorDrive.disable();
-	    		}
-	    	}
-    	
-    	}
-    	SmartDashboard.putNumber("encoderElevator", encoderElevator.get());
     }
     
     public void initDefaultCommand() {
@@ -60,24 +39,14 @@ public class elevatorDrive extends PIDSubsystem {
     }
     
     protected double returnPIDInput() {
-        // Return your input value for the PID loop
-        // e.g. a sensor, like a potentiometer:
-        // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return encoderElevator.get();
+        return cANTalonLeft.getPosition();
     }
     
     protected void usePIDOutput(double output) {
-    	if (cANTalonLeft.isFwdLimitSwitchClosed()==true || cANTalonRight.isRevLimitSwitchClosed()==true){
-    		encoderElevator.reset();
+    	if (cANTalonLeft.isFwdLimitSwitchClosed()==true || cANTalonRight.isRevLimitSwitchClosed()==true){ 
+    		cANTalonLeft.setPosition(0); //One or both of the bottom limit switch was pressed, set encoder to 0
     	}
-    	/*
-    	SmartDashboard.putNumber("encoder", quadratureEncoder1.get());
-    	SmartDashboard.putBoolean("RightisFwdLimitSwitchClosed", cANTalonRight.isFwdLimitSwitchClosed());
-    	SmartDashboard.putBoolean("RightisRevLimitSwitchClosed", cANTalonRight.isRevLimitSwitchClosed());
-    	SmartDashboard.putBoolean("LeftisFwdLimitSwitchClosed", cANTalonLeft.isFwdLimitSwitchClosed());
-    	SmartDashboard.putBoolean("LeftisRevLimitSwitchClosed", cANTalonLeft.isRevLimitSwitchClosed());
-        */
-    	cANTalonLeft.set(-output);
-        cANTalonRight.set(output);
+    	//cANTalonLeft.set(-output);
+        //cANTalonRight.set(output);
     }
 }

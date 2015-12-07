@@ -2,10 +2,16 @@ package org.usfirst.frc2609.Bendgate.subsystems;
 import org.usfirst.frc2609.Bendgate.OI;
 import org.usfirst.frc2609.Bendgate.RobotMap;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.SerialPort;
+
+
 public class robotDrive extends PIDSubsystem {
 	
 	public static AHRS ahrs;
@@ -16,10 +22,8 @@ public class robotDrive extends PIDSubsystem {
     RobotDrive robotDrive = RobotMap.robotDrive;
     Encoder encoderLeftDrive = RobotMap.encoderLeftDrive;
     Encoder encoderRightDrive = RobotMap.encoderRightDrive;
-    Gyro gyroOne = RobotMap.gyroOne;
+    Gyro GyroOne = RobotMap.GyroOne;
     public double robotDriveHeading;
-
-
 
     public robotDrive() {
         super("robotDrive", 0.05, 0.0, 0.0);
@@ -35,28 +39,14 @@ public class robotDrive extends PIDSubsystem {
     }
     
     public void initDefaultCommand() {    
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
     }
     
     public void bendDrive(){
     	robotDrive.arcadeDrive(OI.driverPad.getRawAxis(1)*.6, OI.driverPad.getRawAxis(0)*.6, true);
-    	/*
-    	SmartDashboard.putNumber("ahrsGetAngleTele", ahrs.getYaw());
-    	SmartDashboard.putBoolean("ahrsIsConnected", ahrs.isConnected());
-        SmartDashboard.putNumber("encoderRightWheel", encoderRightDrive.get());
-        SmartDashboard.putNumber("encoderLeftWheel", encoderLeftDrive.get());
-        */
     }
     
     public void bendTurn(){
     	robotDrive.arcadeDrive(0,(ahrs.getYaw()-robotDriveHeading)*-0.01);
-    	/*
-    	SmartDashboard.putNumber("ahrsGetAngleTele", ahrs.getYaw());
-    	SmartDashboard.putBoolean("ahrsIsConnected", ahrs.isConnected());
-        SmartDashboard.putNumber("encoderRightWheel", encoderRightDrive.get());
-        SmartDashboard.putNumber("encoderLeftWheel", encoderLeftDrive.get());
-        */
     }
     
     public void stopDrive(){
@@ -75,20 +65,9 @@ public class robotDrive extends PIDSubsystem {
     
     protected void usePIDOutput(double output) {
     	robotDrive.tankDrive(-output+(ahrs.getYaw()*0.05), -output-(ahrs.getYaw()*0.05));
-        //canTalonLF.set(output);
-        //canTalonLR.set(output);
-        //canTalonRF.set(-output);
-        //canTalonRR.set(-output);
-    	/*
-        SmartDashboard.putNumber("ahrsGetAngleAuto", gyroOne.getAngle());
-        SmartDashboard.putBoolean("ahrsIsConnected", ahrs.isConnected());
-        SmartDashboard.putNumber("encoderRightWheel", encoderRightDrive.get());
-        SmartDashboard.putNumber("encoderLeftWheel", encoderLeftDrive.get());
-        */
     }
 
 	public static void arcadeDrive(double rawAxis, double rawAxis2, boolean b) {
 		// TODO Auto-generated method stub
-		
 	}
 }

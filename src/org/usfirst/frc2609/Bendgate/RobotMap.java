@@ -1,8 +1,14 @@
-package org.usfirst.frc2609.Bendgate;   
-import edu.wpi.first.wpilibj.*;
+package org.usfirst.frc2609.Bendgate;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 
 public class RobotMap {
     public static CANTalon canTalonLF;
@@ -12,7 +18,7 @@ public class RobotMap {
     public static RobotDrive robotDrive;
     public static Encoder encoderLeftDrive;
     public static Encoder encoderRightDrive;
-    public static Gyro gyroOne;
+    public static Gyro GyroOne;
     public static Encoder encoderElevator;
     public static CANTalon canTalonEL;
     public static CANTalon canTalonER;
@@ -22,11 +28,8 @@ public class RobotMap {
     public static SpeedController rollerRight;
     public static DigitalInput toteSenseR;
     public static DigitalInput toteSenseL;
-    public static boolean latch = false;
-    public static boolean run2once = true;
         
     public static void init() {
-
         canTalonLF = new CANTalon(3);
         canTalonLR = new CANTalon(4);
         canTalonRF = new CANTalon(1);
@@ -36,7 +39,6 @@ public class RobotMap {
         robotDrive.setExpiration(0.1);
         robotDrive.setSensitivity(0.5);
         robotDrive.setMaxOutput(1.0);
-        
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
@@ -50,18 +52,24 @@ public class RobotMap {
         LiveWindow.addSensor("robotDrive", "encoderRightDrive", encoderRightDrive);
         encoderRightDrive.setDistancePerPulse(1.0);
         encoderRightDrive.setPIDSourceParameter(PIDSourceParameter.kRate);
-        
-        gyroOne = new Gyro(0);
-        LiveWindow.addSensor("robotDrive", "gyroOne", gyroOne);
-        gyroOne.setSensitivity(0.007);
-        
+
+        GyroOne = new Gyro(0);
+        GyroOne.setSensitivity(0.007);
+        LiveWindow.addSensor("robotDrive", "GyroOne", GyroOne);
+
         encoderElevator = new Encoder(0, 2, false);
         LiveWindow.addSensor("elevatorDrive", "encoderElevator", encoderElevator);
         encoderElevator.setDistancePerPulse(1.0);
         encoderElevator.setPIDSourceParameter(PIDSourceParameter.kRate);
-        
         canTalonEL = new CANTalon(6);
+        canTalonEL.changeControlMode(CANTalon.ControlMode.Position);
+        canTalonEL.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+        canTalonEL.reverseOutput(true);
+        canTalonEL.setPID(2.0, 0.0, 0.0);
         canTalonER = new CANTalon(7);
+        canTalonER.changeControlMode(CANTalon.ControlMode.Follower);
+        canTalonER.set(6);
+        canTalonER.reverseOutput(true);
 
         bottomGripperSolenoid = new DoubleSolenoid(10, 2, 3);      
         LiveWindow.addActuator("bottomGripper", "bottomGripperSolenoid", bottomGripperSolenoid);
@@ -72,18 +80,6 @@ public class RobotMap {
         rollerRight = new Talon(1);
         LiveWindow.addActuator("rollerDrive", "rollerRight", (Talon) rollerRight);
         toteSenseR = new DigitalInput(7);
-        toteSenseL = new DigitalInput(8);
-        
-        
-    /*  SmartDashboard.putBoolean("RightisFwdLimitSwitchClosed", cANTalonRight.isFwdLimitSwitchClosed());	//Top Right
-    	SmartDashboard.putBoolean("RightisRevLimitSwitchClosed", cANTalonRight.isRevLimitSwitchClosed());	//Bot Right
-    	SmartDashboard.putBoolean("LeftisFwdLimitSwitchClosed", cANTalonLeft.isFwdLimitSwitchClosed());		//Bot Left
-    	SmartDashboard.putBoolean("LeftisRevLimitSwitchClosed", cANTalonLeft.isRevLimitSwitchClosed());		//Top Left
-    */    
-        
-        
-        
-    	
-
+        toteSenseL = new DigitalInput(8);    
     }
 }

@@ -1,5 +1,4 @@
 package org.usfirst.frc2609.Bendgate.commands;
-
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2609.Bendgate.Robot;
 
