@@ -49,7 +49,7 @@ public class  elevatorPoint1 extends Command {
     	if(Robot.elevatorDrive.getPosition() == (cANTalonLeft.getSetpoint())){
     		return true;
     	}
-    	else if(Robot.elevatorDrive.getPosition() > (cANTalonLeft.getSetpoint()-20)){
+    	else if(Robot.elevatorDrive.getPosition() < (cANTalonLeft.getSetpoint()-20)){
     		return true;
     	}
     	else{

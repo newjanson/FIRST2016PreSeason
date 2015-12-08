@@ -50,6 +50,7 @@ public class OI {
     public JoystickButton doRollersLeft;
     public JoystickButton doRollersRight;
     public JoystickButton doloadStackTote;
+    public JoystickButton elevatorDisable;
 
     public OI() {
         operatorPad = new Joystick(1);
@@ -69,7 +70,11 @@ public class OI {
         doRollersLeft = new JoystickButton(driverPad, 3);
         doRollersLeft.whileHeld(new rollerLeft());
         doRollersLeft.whenReleased(new rollerStop());
+        
 
+        
+        elevatorDisable = new JoystickButton(driverPad, 2);
+        elevatorDisable.whenPressed(new elevatorDisable());
         openBottomGripper = new JoystickButton(driverPad, 7);        
         closeBottomGripper = new JoystickButton(driverPad, 8);
         closeBottomGripper.whileHeld(new closeBottomGripper());
@@ -90,6 +95,8 @@ public class OI {
 		elevatorPoint3.whileHeld(new elevatorPoint1("position3"));
 		elevatorPoint4.whileHeld(new elevatorPoint1("position4"));
 		
+        openTopGripper = new JoystickButton(driverPad, 10);
+        openTopGripper.whileHeld(new openTopGripper());
 		
 		//SmartDashboard.putNumber("getRawAxis(5)", Math.abs(OI.operatorPad.getRawAxis(5)));
 		// SmartDashboard Buttons

@@ -42,11 +42,12 @@ public class robotDrive extends PIDSubsystem {
     }
     
     public void bendDrive(){
-    	robotDrive.arcadeDrive(OI.driverPad.getRawAxis(1)*.6, OI.driverPad.getRawAxis(0)*.6, true);
+    	robotDrive.arcadeDrive(OI.driverPad.getRawAxis(1), OI.driverPad.getRawAxis(0), true);
     }
     
     public void bendTurn(){
-    	robotDrive.arcadeDrive(0,(ahrs.getYaw()-robotDriveHeading)*-0.01);
+    	//robotDrive.arcadeDrive(0,-robotDriveHeading);
+    	robotDrive.arcadeDrive(0,(ahrs.getYaw()-robotDriveHeading)*-0.01); //Turn with navX heading info
     }
     
     public void stopDrive(){
@@ -63,8 +64,9 @@ public class robotDrive extends PIDSubsystem {
         return ((encoderLeftDrive.get()+(encoderRightDrive.get())*.5));
     }
     
-    protected void usePIDOutput(double output) {
-    	robotDrive.tankDrive(-output+(ahrs.getYaw()*0.05), -output-(ahrs.getYaw()*0.05));
+    protected void usePIDOutput(double output) { //For autonomous use only
+    	//robotDrive.tankDrive(-output, -output);
+    	robotDrive.tankDrive(-output+(ahrs.getYaw()*0.05), -output-(ahrs.getYaw()*0.05));//Drive with navX heading info
     }
 
 	public static void arcadeDrive(double rawAxis, double rawAxis2, boolean b) {

@@ -27,7 +27,13 @@ public class elevatorDrive extends PIDSubsystem {
     }
     public void talonDrive(int setElevator){
     	Robot.elevatorDrive.disable();
+    	cANTalonLeft.enableControl();
     	cANTalonLeft.set(setElevator);
+    	SmartDashboard.putNumber("encoderElevator", cANTalonLeft.getPosition());
+    	SmartDashboard.putNumber("encoderSetpoint", cANTalonLeft.getSetpoint());
+    }
+    public void talonDisable(){
+    	cANTalonLeft.disable();
     	SmartDashboard.putNumber("encoderElevator", cANTalonLeft.getPosition());
     	SmartDashboard.putNumber("encoderSetpoint", cANTalonLeft.getSetpoint());
     }

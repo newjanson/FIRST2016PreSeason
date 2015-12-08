@@ -9,10 +9,11 @@ public class  elevatorDisable extends Command {
     }
 
     protected void initialize() {
-        Robot.elevatorDrive.disable();
+        
     }
 
     protected void execute() {
+    	Robot.elevatorDrive.talonDisable();
     }
 
     protected boolean isFinished() {
